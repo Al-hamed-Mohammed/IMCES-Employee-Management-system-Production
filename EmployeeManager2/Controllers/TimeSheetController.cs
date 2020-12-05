@@ -144,6 +144,15 @@ namespace EmployeeManager2.Controllers
 
             var timesheet = from m in _context.Timesheet
                             select m;
+            if (!string.IsNullOrWhiteSpace(byfirstname) && !string.IsNullOrWhiteSpace(fromdate) && !string.IsNullOrWhiteSpace(todate))
+            {
+                timesheet = timesheet.Where(s => s.Date >= Convert.ToDateTime(fromdate) && s.Date <= Convert.ToDateTime(todate) && s.FirstName.Contains(byfirstname));
+
+                var sum5 = timesheet.Where(s => s.Date >= Convert.ToDateTime(fromdate) && s.Date <= Convert.ToDateTime(todate) && s.FirstName.Contains(byfirstname)).Sum(a => a.Hours);
+                filldropdown();
+                return View("List", timesheet);
+            }
+
             if (!string.IsNullOrWhiteSpace(byfirstname))
             {
                 string dateflag = HttpContext.Session.GetString("datefilterflag");
