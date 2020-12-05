@@ -11,117 +11,141 @@
     <a asp-action="Create">Create New</a>
 </p>
 
+<form id="list_form" onsubmit="return false">
 
-<div class="form-group row">
-
-
-    <label class="col-sm-2 col-form-label"> Search By Last Name: </label>
-    <div class="col-sm-6">
-        <select id="ddllastname"
-                class=" form-control"
-                asp-items="@(new SelectList(ViewBag.Listofnames,"Value", "Text"))">
-        </select>
-
-    </div>
-</div>
-
-<div class="form-group row">
+    <div class="form-group row">
 
 
-    <label class="col-sm-2 col-form-label"> Search By First Name:: </label>
-    <div class="col-sm-6">
-        <input type="text" name="name" id="name" placeholder="Search By First Name:" class="form-control">
+        <label class="col-sm-2 col-form-label"> Search By Last Name: </label>
+        <div class="col-sm-6">
+            <select id="ddllastname"
+                    class=" form-control"
+                    asp-items="@(new SelectList(ViewBag.Listofnames,"Value", "Text"))">
+            </select>
 
-    </div>
-    @*<input type="submit" class="col-sm-1 btn btn-primary" id="btnnamesearch" value="Filter" onclick="location.href='@Url.Action("Search", "Home")?txt=' + $('#search').val()" />*@
-</div>
-<div class="form-group row">
-    <label class="col-sm-2 col-form-label"> Travel Date (From) : </label>
-    <div class="col-sm-3">
-        <input type="date" asp-format="{0:MM-dd-yyyy}" name="fromdate" id="fromdate" placeholder="From Date" class="form-control">
+        </div>
     </div>
 
-</div>
-<div class="form-group row">
-    <label class="col-sm-2 col-form-label"> Travel Date (To) : </label>
-    <div class="col-sm-3">
-        <input type="date" asp-format="{0:MM-dd-yyyy}" name="todate" id="todate" placeholder="To Date" class="form-control">
+    <div class="form-group row">
+
+
+        <label class="col-sm-2 col-form-label"> Search By First Name:: </label>
+        <div class="col-sm-6">
+            
+            <input type="text" name="name" id="name" placeholder="Search By First Name:" class="form-control">
+
+        </div>
+        @*<input type="submit" class="col-sm-1 btn btn-primary" id="btnnamesearch" value="Filter" onclick="location.href='@Url.Action("Search", "Home")?txt=' + $('#search').val()" />*@
     </div>
-    <input type="submit" class="col-sm-1 btn btn-primary" id="btndatesearch" value="Filter" onclick="location.href='@Url.Action("Search", "Mileage")?from=' + $('#fromdate').val() + '&to='+$('#todate').val() + '&byfirstname='+$('#name').val() + '&bylastname='+$('#ddllastname').val()  " />
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label"> Travel Date (From) : </label>
+        <div class="col-sm-3">
+            <input type="date" asp-format="{0:MM-dd-yyyy}" name="fromdate" id="fromdate" placeholder="From Date" class="form-control">
+        </div>
 
-    <div class="col-sm-6" style="text-align:right;font-weight:bold">
-        <label class=" col-sm-3 col-form-label"> Total Miles: </label>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label"> Travel Date (To) : </label>
+        <div class="col-sm-3">
+            <input type="date" asp-format="{0:MM-dd-yyyy}" name="todate" id="todate" placeholder="To Date" class="form-control">
+        </div>
+        <div class="col-sm-1">
+            <input type="submit" class="btn btn-primary" id="btndatesearch" value="Filter" onclick="location.href='@Url.Action("Search", "Mileage")?from=' + $('#fromdate').val() + '&to='+$('#todate').val() + '&byfirstname='+$('#name').val() + '&bylastname='+$('#ddllastname').val()  " />
+        </div>
+        <input type="button" class="col-sm-1 btn btn-light" id="btnclear" value="Clear" onclick="location.href='@Url.Action("list", "Mileage")'" />
+        <div class="col-sm-5" style="text-align:right;font-weight:bold">
+            <label class=" col-sm-4 col-form-label"> Total Miles: </label>
 
-        @Html.Label("Name", (string)ViewBag.total)
+            @Html.Label("Name", (string)ViewBag.total)
+
+        </div>
+
+
+
+
+
+
 
     </div>
 
 
+    <table class="table">
+        <thead>
+            <tr>
 
-
-
-
-
-</div>
-
-
-<table class="table">
-    <thead>
-        <tr>
-
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TravelDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Client)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartToEnd)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Miles)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null)
-        {
-            foreach (var item in Model)
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TravelDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Client)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StartToEnd)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Miles)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
             {
-                <tr>
+                foreach (var item in Model)
+                {
+                    <tr>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LastName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TravelDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Client)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StartToEnd)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Miles)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-                    </td>
-                </tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TravelDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Client)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StartToEnd)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Miles)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                        </td>
+                    </tr>
+                }
             }
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+
+</form>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script type="text/javascript">
+        $(function ()
+        {
+            var name = '@ViewBag.name';
+            $("#name").val(name);
+
+            var fromdate = '@ViewBag.fromdate';
+            $("#fromdate").val(fromdate);
+
+            var todate = '@ViewBag.todate';
+            $("#todate").val(todate);
+        });
+
+
+</script>

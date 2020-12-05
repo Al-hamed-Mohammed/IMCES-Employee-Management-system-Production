@@ -4,8 +4,8 @@
 
 }
 
-    
-    
+
+
 
 
 
@@ -29,9 +29,13 @@
     <div class="col-sm-3">
         <input type="date" asp-format="{0:MM-dd-yyyy}" name="todate" id="todate" placeholder="To Date" class="form-control">
     </div>
-    <input type="submit" class="col-sm-1 btn btn-primary" id="btndatesearch" value="Filter" onclick="location.href='@Url.Action("SearchReceipt", "Home")?from=' + $('#fromdate').val() + '&to='+$('#todate').val() + '&name='+$('#name').val() " />
+    <div class="col-sm-1">
+        <input type="submit" class="btn btn-primary" id="btndatesearch" value="Filter" onclick="location.href='@Url.Action("SearchReceipt", "Home")?from=' + $('#fromdate').val() + '&to='+$('#todate').val() + '&name='+$('#name').val() " />
+    </div>
 
-    <div class="col-sm-6" style="text-align:right;font-weight:bold">
+    <input type="button" class="col-sm-1 btn btn-light" id="btnclear" value="Clear" onclick="location.href='@Url.Action("Index", "Home")'" />
+
+    <div class="col-sm-5" style="text-align:right;font-weight:bold">
         <label class=" col-sm-4 col-form-label"> Total Amount: </label>
 
         @Html.Label("Name", (string)ViewBag.total)
@@ -92,6 +96,22 @@
 
 }
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script type="text/javascript">
+        $(function ()
+        {
+            var name = '@ViewBag.name';
+            $("#name").val(name);
+
+            var fromdate = '@ViewBag.fromdate';
+            $("#fromdate").val(fromdate);
+
+            var todate = '@ViewBag.todate';
+            $("#todate").val(todate);
+        });
+
+
+</script>
 
 
 

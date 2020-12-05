@@ -137,6 +137,10 @@ namespace EmployeeManager2.Controllers
             string bylastname = HttpContext.Request.Query["bylastname"].ToString();
             string byfirstname = HttpContext.Request.Query["byfirstname"].ToString();
 
+            ViewBag.name = byfirstname;
+            ViewBag.fromdate = fromdate;
+            ViewBag.todate = todate;
+
             IQueryable<string> TimesheetQuery = from m in _context.Timesheet
                                                 orderby m.LastName
                                                 select m.LastName;
