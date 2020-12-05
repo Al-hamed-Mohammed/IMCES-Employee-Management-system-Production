@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>ba6891c1-de8b-41e7-b763-4a935c944a8c</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200219042532_AddPhotoPathColumn.cs" />
+    <Compile Remove="Migrations\20200219042532_AddPhotoPathColumn.Designer.cs" />
+    <Compile Remove="Migrations\20200219042959_AddSomeProperty.cs" />
+    <Compile Remove="Migrations\20200219042959_AddSomeProperty.Designer.cs" />
+    <Compile Remove="Migrations\20200219043645_AddPhotoPathColumn.cs" />
+    <Compile Remove="Migrations\20200219043645_AddPhotoPathColumn.Designer.cs" />
+    <Compile Remove="Migrations\20200219043934_AddSomeProperty.cs" />
+    <Compile Remove="Migrations\20200219043934_AddSomeProperty.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="jQuery.Validation" Version="1.19.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="NuGet.Protocol.Core.Types" Version="4.2.0" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.4.1" />
+  </ItemGroup>
+
+
+
+</Project>

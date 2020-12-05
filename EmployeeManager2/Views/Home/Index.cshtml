@@ -1,0 +1,108 @@
+﻿@model IEnumerable<Employee>
+@{
+    ViewBag.Title = "Employee List";
+
+}
+
+    
+    
+
+
+
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label"> Search: </label>
+    <div class="col-sm-6">
+        <input type="text" name="name" id="name" placeholder="Search by Name" class="form-control">
+
+    </div>
+    @*<input type="submit" class="col-sm-1 btn btn-primary" id="btnnamesearch" value="Filter" onclick="location.href='@Url.Action("Search", "Home")?txt=' + $('#search').val()" />*@
+</div>
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label"> Receipt Date (From) : </label>
+    <div class="col-sm-3">
+        <input type="date" asp-format="{0:MM-dd-yyyy}" name="fromdate" id="fromdate" placeholder="From Date" class="form-control">
+    </div>
+
+</div>
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label"> Receipt Date (To) : </label>
+    <div class="col-sm-3">
+        <input type="date" asp-format="{0:MM-dd-yyyy}" name="todate" id="todate" placeholder="To Date" class="form-control">
+    </div>
+    <input type="submit" class="col-sm-1 btn btn-primary" id="btndatesearch" value="Filter" onclick="location.href='@Url.Action("SearchReceipt", "Home")?from=' + $('#fromdate').val() + '&to='+$('#todate').val() + '&name='+$('#name').val() " />
+
+    <div class="col-sm-6" style="text-align:right;font-weight:bold">
+        <label class=" col-sm-4 col-form-label"> Total Amount: </label>
+
+        @Html.Label("Name", (string)ViewBag.total)
+
+    </div>
+</div>
+
+
+
+<div class="card-deck">
+
+
+
+    @foreach (var employee in Model)
+    {
+        var photoPath = "";
+        if (employee.PhotoPath == null || employee.PhotoPath == "")
+        {
+            photoPath = "~/Images/" + ("Publication1.jpg");
+        }
+        else
+        {
+            photoPath = "~/Images/" + (employee.PhotoPath);
+        }
+
+        <div class="card m-3" style="min-width: 18rem; max-width: 30.5%;">
+            <div class="card-header">
+                <h3>@employee.Name</h3>
+            </div>
+            <img class="card-img-top imageThumbnail" src="@photoPath"
+                 asp-append-version="true" />
+            <div class="card-footer text-center">
+                <a asp-controller="home" asp-action="details" asp-route-id="@employee.Id"
+                   class="btn btn-primary m-1">View</a>
+                <a asp-action="edit" asp-controller="home" asp-route-id="@employee.Id" asp-route-foo="bar"
+                   class="btn btn-primary m-1">Edit</a>
+                <a asp-action="delete" asp-controller="home" asp-route-id="@employee.Id" asp-route-foo="bar"
+                   class="btn btn-danger m-1" onclick="return confirm('Are you sure delete')">Delete</a>
+            </div>
+        </div>
+    }
+
+</div>
+
+
+
+
+
+@if (TempData["Message"] != null)
+{
+    <script type="text/javascript">
+        debugger;
+        window.onload = function () {
+            alert('@TempData["Message"]');
+            window.location.href = "/Home/Index/";
+        };
+    </script>
+
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
