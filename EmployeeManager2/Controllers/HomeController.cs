@@ -109,7 +109,16 @@ namespace EmployeeManager2.Controllers
             string from = HttpContext.Request.Query["from"].ToString();
             string to = HttpContext.Request.Query["to"].ToString();
             string name = HttpContext.Request.Query["name"].ToString();
-           
+
+            if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(from) && !string.IsNullOrWhiteSpace(to))
+            {
+                var model = _employeeRepository.SearchwithdateAndName(name, from, to);
+                var total1 = _employeeRepository.SearchwithdateAndName(name, from, to).Sum(s => s.ReceiptAmount);
+
+                ViewBag.total = total1.ToString();
+                return View("Index", model);
+            }
+
 
             if (!string.IsNullOrWhiteSpace(name))
             {
