@@ -145,6 +145,15 @@ namespace EmployeeManager2.Controllers
 
             var mileage = from m in _context.Mileage
                             select m;
+
+            if (!string.IsNullOrWhiteSpace(byfirstname) && !string.IsNullOrWhiteSpace(fromdate) && !string.IsNullOrWhiteSpace(todate))
+            {
+                mileage = mileage.Where(s => s.TravelDate >= Convert.ToDateTime(fromdate) && s.TravelDate <= Convert.ToDateTime(todate) && s.FirstName.Contains(byfirstname));
+
+                var sum5 = mileage.Where(s => s.TravelDate >= Convert.ToDateTime(fromdate) && s.TravelDate <= Convert.ToDateTime(todate) && s.FirstName.Contains(byfirstname)).Sum(a => a.Miles);
+                filldropdown();
+                return View("List", mileage);
+            }
             if (!string.IsNullOrWhiteSpace(byfirstname))
             {
                 mileage = mileage.Where(s => s.FirstName.Contains(byfirstname));
