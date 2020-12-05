@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EmployeeManager2.Data;
 using EmployeeManager2.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -115,7 +116,7 @@ namespace EmployeeManager2.Controllers
         [Authorize(Roles = UtilityClass.AdminUserRole)]
         public IActionResult Delete(TimeSheet ts)
         {
-            
+
 
             _context.Timesheet.Remove(ts);
             _context.SaveChanges();
@@ -145,13 +146,31 @@ namespace EmployeeManager2.Controllers
                             select m;
             if (!string.IsNullOrWhiteSpace(byfirstname))
             {
-                timesheet = timesheet.Where(s => s.FirstName.Contains(byfirstname));
+                string dateflag = HttpContext.Session.GetString("datefilterflag");
+                if (dateflag == "true")
+                {
+                    string viewbagfromdate = HttpContext.Session.GetString("fromdate");
+                    string viewbagtodate = HttpContext.Session.GetString("todate");
 
-                var sum3 = timesheet.Where(s => s.FirstName.Contains(byfirstname)).Sum(a => a.Hours);
+                    timesheet = timesheet.Where(s => s.Date >= Convert.ToDateTime(viewbagfromdate) && s.Date <= Convert.ToDateTime(viewbagtodate) && s.FirstName.Contains(byfirstname));
 
-                ViewBag.total = sum3.ToString();
-                filldropdown();
-                return View("List", timesheet);
+                    var sum4 = timesheet.Where(s => s.Date >= Convert.ToDateTime(viewbagfromdate) && s.Date <= Convert.ToDateTime(viewbagtodate) && s.FirstName.Contains(byfirstname)).Sum(a => a.Hours);
+                    HttpContext.Session.SetString("datefilterflag", "false");
+                    filldropdown();
+                    return View("List", timesheet);
+                }
+                else
+                {
+
+
+                    timesheet = timesheet.Where(s => s.FirstName.Contains(byfirstname));
+
+                    var sum3 = timesheet.Where(s => s.FirstName.Contains(byfirstname)).Sum(a => a.Hours);
+
+                    ViewBag.total = sum3.ToString();
+                    filldropdown();
+                    return View("List", timesheet);
+                }
             }
 
             if (bylastname != "All Names")
@@ -178,6 +197,9 @@ namespace EmployeeManager2.Controllers
                     var sum2 = timesheet.Where(s => s.Date >= Convert.ToDateTime(fromdate) && s.Date <= Convert.ToDateTime(todate)).Sum(p => p.Hours);
 
                     ViewBag.total = sum2.ToString();
+                    HttpContext.Session.SetString("fromdate", fromdate);
+                    HttpContext.Session.SetString("todate", todate);
+                    HttpContext.Session.SetString("datefilterflag", "true");
                     //filldropdown();
                     //return View("List", timesheet);
 

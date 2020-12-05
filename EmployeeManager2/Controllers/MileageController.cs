@@ -6,6 +6,7 @@ using EmployeeManager2.Data;
 using EmployeeManager2.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +27,7 @@ namespace EmployeeManager2.Controllers
         public IActionResult Index()
         {
             return View();
-            
+
         }
         public IActionResult Privacy()
         {
@@ -116,11 +117,11 @@ namespace EmployeeManager2.Controllers
         [Authorize(Roles = UtilityClass.AdminUserRole)]
         public IActionResult Delete(Mileage m)
         {
-            
+
 
             _context.Mileage.Remove(m);
             _context.SaveChanges();
-         
+
 
             return RedirectToAction("List");
         }
@@ -139,21 +140,39 @@ namespace EmployeeManager2.Controllers
             string bylastname = HttpContext.Request.Query["bylastname"].ToString();
             string byfirstname = HttpContext.Request.Query["byfirstname"].ToString();
 
-            IQueryable<string> MileageQuery = from m in _context.Mileage  
-                                                orderby m.LastName
-                                                select m.LastName;
+            IQueryable<string> MileageQuery = from m in _context.Mileage
+                                              orderby m.LastName
+                                              select m.LastName;
 
             var mileage = from m in _context.Mileage
-                            select m;
+                          select m;
             if (!string.IsNullOrWhiteSpace(byfirstname))
             {
-                mileage = mileage.Where(s => s.FirstName.Contains(byfirstname));
+                string dateflag = HttpContext.Session.GetString("datefilterflag");
+                if (dateflag == "true")
+                {
+                    string viewbagfromdate = HttpContext.Session.GetString("fromdate");
+                    string viewbagtodate = HttpContext.Session.GetString("todate");
 
-                var sum3 = mileage.Where(s => s.FirstName.Contains(byfirstname)).Sum(a => a.Miles);
+                    mileage = mileage.Where(s => s.TravelDate >= Convert.ToDateTime(viewbagfromdate) && s.TravelDate <= Convert.ToDateTime(viewbagtodate) && s.FirstName.Contains(byfirstname));
 
-                ViewBag.total = sum3.ToString();
-                filldropdown();
-                return View("List", mileage);
+                    var sum4 = mileage.Where(s => s.TravelDate >= Convert.ToDateTime(viewbagfromdate) && s.TravelDate <= Convert.ToDateTime(viewbagtodate) && s.FirstName.Contains(byfirstname)).Sum(a => a.Miles);
+                    HttpContext.Session.SetString("datefilterflag", "false");
+                    filldropdown();
+                    return View("List", mileage);
+                }
+                else
+                {
+
+
+                    mileage = mileage.Where(s => s.FirstName.Contains(byfirstname));
+
+                    var sum3 = mileage.Where(s => s.FirstName.Contains(byfirstname)).Sum(a => a.Miles);
+
+                    ViewBag.total = sum3.ToString();
+                    filldropdown();
+                    return View("List", mileage);
+                }
             }
 
             if (bylastname != "All Names")
@@ -180,6 +199,10 @@ namespace EmployeeManager2.Controllers
                     var sum2 = mileage.Where(s => s.TravelDate >= Convert.ToDateTime(fromdate) && s.TravelDate <= Convert.ToDateTime(todate)).Sum(p => p.Miles);
 
                     ViewBag.total = sum2.ToString();
+
+                    HttpContext.Session.SetString("fromdate", fromdate);
+                    HttpContext.Session.SetString("todate", todate);
+                    HttpContext.Session.SetString("datefilterflag", "true");
                     //filldropdown();
                     //return View("List", mileage);
 
