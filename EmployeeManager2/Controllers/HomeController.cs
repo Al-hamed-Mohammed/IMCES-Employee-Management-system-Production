@@ -110,6 +110,10 @@ namespace EmployeeManager2.Controllers
             string to = HttpContext.Request.Query["to"].ToString();
             string name = HttpContext.Request.Query["name"].ToString();
 
+            ViewBag.name = name;
+            ViewBag.fromdate = from;
+            ViewBag.todate = to;
+
             if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(from) && !string.IsNullOrWhiteSpace(to))
             {
                 var model = _employeeRepository.SearchwithdateAndName(name, from, to);
