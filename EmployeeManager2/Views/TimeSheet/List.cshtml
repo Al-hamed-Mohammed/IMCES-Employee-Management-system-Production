@@ -1,0 +1,111 @@
+﻿@model IEnumerable<EmployeeManager2.Models.TimeSheet>
+
+@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_TimeSheetLayout.cshtml";
+}
+
+<h1>List</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+
+
+<div class="form-group row">
+
+
+    <label class="col-sm-2 col-form-label"> Search By Last Name: </label>
+    <div class="col-sm-6">
+        <select id="ddllastname"
+                class=" form-control"
+                asp-items="@(new SelectList(ViewBag.Listofnames,"Value", "Text"))">
+        </select>
+
+    </div>
+</div>
+
+
+<div class="form-group row">
+
+   
+    <label class="col-sm-2 col-form-label"> Search By First Name: </label>
+    <div class="col-sm-6">
+        <input type="text" name="name" id="name" placeholder="Search by Name" class="form-control">
+
+    </div>
+    @*<input type="submit" class="col-sm-1 btn btn-primary" id="btnnamesearch" value="Filter" onclick="location.href='@Url.Action("Search", "Home")?txt=' + $('#search').val()" />*@
+</div>
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label"> Date (From) : </label>
+    <div class="col-sm-3">
+        <input type="date" asp-format="{0:MM-dd-yyyy}" name="fromdate" id="fromdate" placeholder="From Date" class="form-control">
+    </div>
+
+</div>
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label">  Date (To) : </label>
+    <div class="col-sm-3">
+        <input type="date" asp-format="{0:MM-dd-yyyy}" name="todate" id="todate" placeholder="To Date" class="form-control">
+    </div>
+
+    <input type="submit" class="col-sm-1 btn btn-primary" id="btndatesearch" value="Filter" onclick="location.href='@Url.Action("Search", "TimeSheet")?from=' + $('#fromdate').val() + '&to='+$('#todate').val() + '&byfirstname='+$('#name').val() + '&bylastname='+$('#ddllastname').val()  " />
+    <div class="col-sm-6" style="text-align:right;font-weight:bold">
+        <label class=" col-sm-3 col-form-label"> Total Hours: </label>
+
+        @Html.Label("Name", (string)ViewBag.total)
+
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hours)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+
+
+            foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Hours)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
