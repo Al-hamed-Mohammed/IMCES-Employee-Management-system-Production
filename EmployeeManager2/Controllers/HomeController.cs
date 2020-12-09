@@ -169,7 +169,6 @@ namespace EmployeeManager2.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = UtilityClass.AdminUserRole)]
         public IActionResult Create(EmployeeCreateViewModel model)
         {
            

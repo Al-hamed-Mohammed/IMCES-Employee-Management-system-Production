@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,6 +25,7 @@ namespace EmployeeManager2.Models
         [Display(Name = "Starting Point to Destination")]
         public string StartToEnd { get; set; }
 
-        public double Miles { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Miles { get; set; }
     }
 }
