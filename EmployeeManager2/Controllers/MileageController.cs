@@ -39,7 +39,7 @@ namespace EmployeeManager2.Controllers
                                 {
                                     Text = m.LastName,
                                     Value = m.LastName,
-                                }).ToList();
+                                }).Distinct().ToList();
 
             lastnameList.Insert(0, new SelectListItem()
             {
